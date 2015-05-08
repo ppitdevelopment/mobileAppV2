@@ -74,7 +74,9 @@ _TEXT["de"] = {
 	kontaktTitle	: "Kontakt",
 	// error messages etc.
 	requestAborted	: "Der Prozess wird im Hintergrund zu Ende ausgeführt.",
-	errorTitle		: "Fehler",
+	errorTitle		: "Nachrichten",
+	errorNoError	: "Leider sind keine Nachrichten vorhanden.",
+	errorRestart	: "Erneut versuchen",
 	networkErrorTitle	: "Verbindungsfehler",
 	networkErrorText	: "App kann nicht mit dem Server verbunden werden. Bitte überprüfen Sie Ihre Internetverbindung.",
 	networkErrorTextDebug: "App kann nicht mit %URL% verbunden werden. Bitte überprüfen Sie Ihre Internetverbindung.",

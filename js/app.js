@@ -57,7 +57,6 @@ ppitapp.factory('httpWatcher', ['$injector', function($injector) {
 			request			: function(config) {
 				var url = config.url;
 				if(url.indexOf(".html") == -1) {
-					// TODO: add session key
 					//console.log("on request:", config.method, url, config.data, config);
 					var authSvc = $injector.get('Auth');
 					if(!config.params) config.params = {};

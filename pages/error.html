@@ -1,0 +1,23 @@
+<div ui-content-for="pageTitle">
+	<span>{{title}}</span>
+</div>
+<div ng-controller="ErrorCtrl">
+	<div class="section section-default">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-warning" ng-repeat="message in messages.messages">
+				<img ng-show="message.image.length > 0" ng-src="{{message.image}}" width="80px" style="float: left; width: 80px">
+				<h4 class="list-group-item-heading">{{message.title}}</h4>
+				<p class="list-group-item-text" ng-bind-html="message.text"></p>
+			</div>
+			<div ng-if="messages.messages.length == 0" class="list-group-item list-group-item-info"><p>{{app.text.errorNoError}}</p></div>
+		</div>
+	</div>
+	<div ui-content-for="navbarAction">
+		<a ng-if="actionType == 'refresh'" href="" class="btn btn-default btn-navbar" ng-click="restart()">
+			<i class="fa fa-refresh"></i> {{app.text.errorRestart}}
+		</a>
+		<a ng-if="actionType == 'ok'" href="" class="btn btn-default btn-navbar" ng-click="action()">
+			<i class="fa fa-check-circle-o"></i> {{app.text.okButton}}
+		</a>
+	</div>
+</div>

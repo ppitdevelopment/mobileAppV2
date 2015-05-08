@@ -60,6 +60,6 @@ var ppitMessages = ppitServices.factory('Messages', [function() {
 	M.clear = function() {
 		M.messages = [];
 		M.actionType = "ok"; // "ok"/"refresh"
-	}
+	};
 	return M;
 }]);
