@@ -1,0 +1,54 @@
+<div ui-content-for="pageTitle">
+	<span>{{app.text.kontoTitle}}</span>
+</div>
+<div ng-controller="KontoCtrl">
+	<div class="scrollable">
+		<div class="scrollable-header">
+			<div class="section section-default">
+				<div class="row">
+					<div class="col-sm-1 text-right"><label for="startDate">{{app.text.kontoFrom}}</label></div>
+					<div class="col-sm-4"><input class="form-control" type="date" name="startDate" id="startDate" ng-model="selectedStartDate" /></div>
+					<div class="col-sm-1 text-right"><label for="endDate">{{app.text.kontoTill}}</label></div>
+					<div class="col-sm-4"><input class="form-control" type="date" name="endDate" id="endDate" ng-model="selectedEndDate" /></div>
+					<div class="col-sm-2"><a href="" class="btn btn-default btn-block" ng-click="loadKonto()"><i class="fa fa-refresh"></i> {{app.text.okButton}}</a></div>
+				</div>
+			</div>
+			<div class="section section-primary">
+				<div class="row">
+					<div class="col-sm-2">{{app.text.kontoSaldoLast}}</div>
+					<div class="col-sm-10"></div>
+				</div>
+			</div>
+			<div class="section section-info">
+				<div class="row">
+					<div class="col-sm-2">{{app.text.kontoSaldoPeriod}}</div>
+					<div class="col-sm-10"></div>
+				</div>
+			</div>
+		</div>
+		<div class="scrollable-content">
+			<div class="section section-wide section-condensed">
+				<div class="list-group" ng-if="isLoaded && buchungen.length > 0">
+					<div class="list-group-item" ng-repeat="buchung in buchungen" ng-class="{'list-group-item-info':!!buchung.isNew}">
+						<h4 class="list-group-item-heading"><span class="pull-right">Betrag: <strong class="label" ng-class="{'label-danger':buchung.betrag<0,'label-success':buchung.betrag>=0}">{{buchung.betrag | currency}}</strong></span><span>{{buchung.datum}}</span></h4>
+						<p class="list-group-item-text">{{buchung.text}} - {{buchung.vorname}} {{buchung.name}}</p>
+						<!-- <pre>{{buchung | json}}</pre>-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="scrollable-footer">
+			<div class="section section-info">
+				<div class="row">
+					<div class="col-sm-2">{{app.text.kontoSaldoPeriod}}</div>
+					<div class="col-sm-10"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ui-content-for="navbarAction">
+		<a href="" class="btn btn-default btn-navbar" ng-click="goBack()">
+			<i class="fa fa-chevron-circle-left"></i> {{app.text.backButton}}
+		</a>
+	</div>
+</div>

@@ -1,0 +1,42 @@
+<div ui-content-for="pageTitle">
+	<span>{{app.text.kurseTitle}}</span>
+</div>
+<div class="scrollable" ng-controller="KurseCtrl">
+	<div class="scrollable-header section section-info"><h4><span ng-if="kurse.mode == 'index'">{{app.text.kurseIndex}}</span><span ng-if="kurse.mode != 'index'">{{app.text.kurseMeine}}</span></h4></div>
+	<div class="scrollable-content">
+		<div class="list-group" ng-if="isLoaded">
+			<a ng-repeat="kurs in kurse.kursliste" href="" class="list-group-item" ng-click="openKurs(kurs)" ng-class="{'status-list-item' : kurs.anmeldedaten.anmeldestatus > 0}">
+				<div ng-if="kurs.anmeldedaten.anmeldestatus > 0">
+					<div ng-if="kurs.anmeldedaten.anmeldestatus == 10">
+						<img src="images/ribbon3-o.png">
+						<div class="status orange"><div class="status-label"><span>{{app.text.kurseStatus10}}</span></div></div>
+					</div>
+					<div ng-if="kurs.anmeldedaten.anmeldestatus == 30">
+						<img src="images/ribbon3-g.png">
+						<div class="status green"><div class="status-label"><span>{{app.text.kurseStatus30}}</span></div></div>
+					</div>
+					<div ng-if="kurs.anmeldedaten.anmeldestatus == 80 || kurs.anmeldedaten.anmeldestatus == 90">
+						<img src="images/ribbon3-r.png">
+						<div class="status red"><div class="status-label"><span ng-if="kurs.anmeldedaten.anmeldestatus == 80">{{app.text.kurseStatus80}}</span><span ng-if="kurs.anmeldedaten.anmeldestatus == 90">{{app.text.kurseStatus90}}</span></div></div>
+					</div>
+				</div>
+				<h4>{{kurs.kursstammdaten.name}}</h4>
+				<p ng-bind-html="kurs.kursstammdaten.beschreibung_short"></p>
+				<p><strong>{{kurs.kursstammdaten.preis_pro_periode | currency:EUR}} / {{app.text.kursePeriods[kurs.kursstammdaten.zahlungsperiode_id]}}</strong></p>
+				<!-- <span>{{kurs | json}}</span> -->
+			</a>
+			<div ng-if="kurse.kursliste.length == 0" class="list-group-item list-group-item-warning"><h4 class="list-group-item-heading">{{app.text.kurseEmpty}}</h4></div>
+		</div>
+		<div class="list-group" ng-if="!isLoaded">
+			<div class="list-group-item list-group-item-info"><i class="fa fa-spinner fa-spin loading-spinner"></i> {{app.text.loading}}</div>
+		</div>
+	</div>
+	<div ui-content-for="navbarAction">
+		<a href="" class="btn btn-default btn-navbar" ng-click="goBack()">
+			<i class="fa fa-chevron-circle-left"></i> {{app.text.backButton}}
+		</a>
+		<a href="" class="btn btn-default btn-navbar" ng-click="switchMode()">
+			<span ng-if="kurse.mode != 'index'"><i class="fa fa-users"></i> {{app.text.kurseIndex}}</span><span ng-if="kurse.mode == 'index'"><i class="fa fa-user"></i> {{app.text.kurseMeine}}</span>
+		</a>
+	</div>
+</div>

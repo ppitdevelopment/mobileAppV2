@@ -1,0 +1,91 @@
+<div ui-content-for="pageTitle">
+	<span>{{app.text.kurseDetailTitle}}</span>
+</div>
+<div class="scrollable" ng-controller="KurseDetailCtrl">
+	<div class="scrollable-header section section-info"><h4>{{kurs.kursstammdaten.name}}</h4></div>
+	<div class="scrollable-content">
+		<div class="list-group" ng-show="kursdetail.loaded">
+			<div class="list-group-item" ng-if="kurs.anmeldedaten.bemerkung">
+				<div class="row">
+					<div class="col-sm-6"><h4>{{app.text.kurseRemark}}</h4></div>
+					<div class="col-sm-6">{{kurs.anmeldedaten.bemerkung}}</div>
+				</div>
+			</div>
+			<div class="list-group-item" ng-if="kurs.kursstammdaten.veranstalter">
+				<div class="row">
+					<div class="col-sm-6"><h4>{{app.text.kurseOrganizer}}</h4></div>
+					<div class="col-sm-6">{{kurs.kursstammdaten.veranstalter}}</div>
+				</div>
+			</div>
+			<div class="list-group-item" ng-if="kurs.kursstammdaten.kursleiter">
+				<div class="row">
+					<div class="col-sm-6"><h4>{{app.text.kurseInstructor}}</h4></div>
+					<div class="col-sm-6">{{kurs.kursstammdaten.kursleiter}}</div>
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="row">
+					<div class="col-sm-6"><h4>{{app.text.kursePrice}}</h4></div>
+					<div class="col-sm-6">{{kurs.kursstammdaten.preis_pro_periode | currency:EUR}} / {{app.text.kursePeriods[kurs.kursstammdaten.zahlungsperiode_id]}}</div>
+				</div>
+			</div>
+			<div class="list-group-item" ng-if="kurs.kursstammdaten.treffpunkt">
+				<div class="row">
+					<div class="col-sm-6"><h4>{{app.text.kurseMeetPlace}}</h4></div>
+					<div class="col-sm-6">{{kurs.kursstammdaten.treffpunkt}}</div>
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="row">
+					<div class="col-sm-6"><h4>{{app.text.kurseRunTime}}</h4></div>
+					<div class="col-sm-6">{{ kurs.kursstammdaten.laufzeit_von }}&nbsp;-&nbsp;{{ kurs.kursstammdaten.laufzeit_bis }}</div>
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="row">
+					<div class="col-sm-6"><h4>{{app.text.kurseSigninTo}}</h4></div>
+					<div class="col-sm-6">{{kurs.kursstammdaten.anmeldung_bis}}</div>
+				</div>
+			</div>
+			<div class="list-group-item list-group-item-info" ng-if="kurs.termine.length > 0">
+				<h4>{{app.text.kurseSchedule}}</h4>
+			</div>
+			<div class="list-group-item" ng-repeat="termin in kurs.termine">
+				<p>{{termin.start_zeit | date:'EEEE dd.MM.y'}} <span class="pull-right">{{termin.start_zeit | date:'H:mm'}}&nbsp;-<span ng-show="termin.ende_zeit.getUTCDate() != termin.start_zeit.getUTCDate()">&nbsp;{{termin.ende_zeit | date:'dd.MM.y'}}</span>&nbsp;{{termin.ende_zeit | date:'H:mm'}}</span></p>
+			</div>
+		</div>
+	</div>
+	<div ui-content-for="navbarAction">
+		<a href="" class="btn btn-default btn-navbar" ng-click="goBack()">
+			<i class="fa fa-chevron-circle-left"></i> {{app.text.backButton}}
+		</a>
+		<a href="" class="btn btn-default btn-navbar" ng-click="submit()" ng-if="kurs.anmeldedaten.anmeldestatus < 80 && kursdetail.lastPage != 'meine'">
+			<span ng-if="kurs.anmeldedaten.anmeldestatus == 0">
+				<i class="fa fa-check-circle"></i> {{app.text.loginTitle}}
+			</span>
+			<span ng-if="(kurs.anmeldedaten.anmeldestatus == 10) || (kurs.anmeldedaten.anmeldestatus == 30)">
+				<i class="fa fa-times-circle"></i> {{app.text.logoutTitle}}
+			</span>
+		</a>
+	</div>
+	<div ui-content-for="modals">
+		<div ui-if="statusModal" class="modal modal-overlay">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" ui-turn-off="statusModal">&times;</button>
+						<h4 class="modal-title">{{app.text.aboTitle}}</h4>
+					</div>
+					<div class="modal-body">
+						<h4>{{app.text.kurseRemarkLabel}}</h4>
+						<p><textarea name="bemerkung" id="bemerkung" value="" placeholder="{{app.text.kurseRemarkLabel}}" ng-model="kursdetail.inputBemerkung"></textarea></p>
+					</div>
+					<div class="modal-footer">
+						<button ui-turn-off="statusModal" class="btn btn-primary" ng-click="statusChange('10')">{{app.text.okButton}}</button>
+						<button ui-turn-off="statusModal" class="btn btn-default" ng-click="statusCancel()">{{app.text.cancelButton}}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de-de" ng-app="ppitapp">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+	<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+	<META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:12:01 GMT">
+	<title>ISS Menü+</title>
+	<link rel="stylesheet" href="libs/maui/css/mobile-angular-ui-base.css" />
+	<link rel="stylesheet" href="css/custom.css" />
+</head>
+<body ng-controller="AppCtrl">
+	<!-- Sidebars -->
+	<div class="sidebar sidebar-left ppit-sidebar">
+		<div class="scrollable">
+			<a href="" class="scrollable-header app-name">
+				<img src="" ng-src="{{app.user.pic}}" class="profile-pic" id="profile-pic" /> <span>{{app.user.name}}</span>
+			</a>
+			<div class="scrollable-content">
+				<div class="list-group" ui-turn-off='uiSidebarLeft'>
+					<a class="list-group-item" href="#/kalender/0"><i class="fa fa-calendar fa-fw"></i> {{app.text.kalenderTitle}} <i class="fa fa-chevron-right pull-right"></i></a>
+					<a class="list-group-item" href="#/kurse"><i class="fa fa-users fa-fw"></i> {{app.text.kurseTitle}} <i class="fa fa-chevron-right pull-right"></i></a>
+					<a class="list-group-item" href="#/konto"><i class="fa fa-money fa-fw"></i> {{app.text.kontoTitle}} <i class="fa fa-chevron-right pull-right"></i></a>
+					<a class="list-group-item" href="#/profile"><i class="fa fa-user fa-fw"></i> {{app.text.profileTitle}} <i class="fa fa-chevron-right pull-right"></i></a>
+					<a class="list-group-item" href="#/vertretungsplan"><i class="fa fa-clock-o fa-fw"></i> {{app.text.vertretungsplanTitle}} <i class="fa fa-chevron-right pull-right"></i><span class="badge">{{app.vertretungen}}</span></a>
+					<a class="list-group-item" href="#/kontakt"><i class="fa fa-phone fa-fw"></i> {{app.text.kontaktTitle}} <i class="fa fa-chevron-right pull-right"></i></a>
+					<a class="list-group-item" href="#/logout"><i class="fa fa-power-off fa-fw"></i> {{app.text.logoutTitle}} <i class="fa fa-chevron-right pull-right"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar sidebar-right">
+		<div class="row section">
+			<div class="col-sm-6">
+				<div class="pull-right">
+					<a href="" class="btn btn-default" ui-turn-on='langDropdown'>
+						{{app.selectedLanguage}} <i class="fa fa-caret-down"></i>
+					</a>
+					<ul
+							class="dropdown-menu"
+							ui-outer-click="Ui.turnOff('langDropdown')"
+							ui-outer-click-if="Ui.active('langDropdown')"
+							role="menu"
+							ui-show="langDropdown"
+							ui-state="langDropdown"
+							ui-turn-off="langDropdown">
+						<li ng-repeat="(lKey, lTitle) in app.lang"><a href="" ng-click="changeLang(lKey)">{{lTitle}}</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<label>{{app.text.languageLabel}}</label>
+			</div>
+		</div>
+	</div>
+
+	<div class="app">
+		<div class="navbar navbar-app navbar-absolute-top">
+			<!-- Top Navbar -->
+			<div class="navbar-brand navbar-brand-center">
+				<span ui-yield-to="pageTitle">{{app.text.appName}}</span>
+			</div>
+			<div class="btn-group pull-left" ng-show="app.loggedIn">
+				<a class="btn btn-navbar" href="" ui-toggle="uiSidebarLeft"><i class="fa fa-bars"></i></a>
+			</div>
+			<div class="btn-group pull-right" ng-show="app.loggedIn">
+				<a class="btn btn-navbar" href="" ui-toggle="uiSidebarRight"><i class="fa fa-cog"></i></a>
+			</div>
+			
+		</div>
+		<div class="navbar navbar-app navbar-absolute-bottom">
+			<!-- Bottom Navbar -->
+			<div class="btn-group justified" ui-yield-to="navbarAction">
+			</div>
+		</div>
+
+	    <!-- App body -->
+		<div class='app-body' ng-class="{loading: loading}">
+			<div class='app-content'>
+				<ng-view></ng-view>
+			</div>
+		</div>
+	</div><!-- ~ .app -->
+
+	<!-- Modals and Overlays -->
+	<div ui-yield-to="modals"></div>
+	<div class="modal modal-overlay" ng-if="loading" ui-state="loading">
+		<div class="row"><div class="col-sm-8 col-sm-offset-2 text-center"><i class="fa fa-spinner fa-spin loading-spinner"></i> {{app.text.loading}}</div></div>
+	</div>
+	<!-- <script src="phonegap.js"></script> -->
+	<script src="libs/ng/angular.js"></script>
+	<script src="libs/ng/locale.js"></script>
+	<script src="libs/ng/angular-route.js">
+	</script>
+	<script src="libs/ng/angular-sanitize.js">
+	</script>
+	<script src="libs/maui/js/mobile-angular-ui.js">
+	</script>
+	<script src="js/config.js"></script>
+	<script src="js/lang/de.js"></script>
+	<script src="js/lang/en.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/filters/replaceFilter.js"></script>
+	<script src="js/services/utils.js"></script>
+	<script src="js/services/core.js"></script>
+	<script src="js/services/storage.js"></script>
+	<script src="js/services/lang.js"></script>
+	<script src="js/services/messages.js"></script>
+	<script src="js/services/auth.js"></script>
+	<script src="js/services/navigation.js"></script>
+	<script src="js/services/datacache.js"></script>
+	<script src="js/services/datasource.js"></script>
+	<script src="js/services/kalender.js"></script>
+	<script src="js/services/teilnehmer.js"></script>
+	<script src="js/services/vertretungsplan.js"></script>
+	<script src="js/services/kurse.js"></script>
+	<script src="js/services/konto.js"></script>
+	<script src="js/controllers/appCtrl.js"></script>
+	<script src="js/controllers/loginCtrl.js"></script>
+	<script src="js/controllers/kalenderCtrl.js"></script>
+	<script src="js/controllers/menueCtrl.js"></script>
+	<script src="js/controllers/kurseCtrl.js"></script>
+	<script src="js/controllers/kurseDetailCtrl.js"></script>
+	<script src="js/controllers/kontoCtrl.js"></script>
+	<script src="js/controllers/profileCtrl.js"></script>
+	<script src="js/controllers/vertretungsplanCtrl.js"></script>
+	<script src="js/controllers/kontaktCtrl.js"></script>
+	<script src="js/controllers/logoutCtrl.js"></script>
+</body>
+</html>

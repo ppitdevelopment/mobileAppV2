@@ -1,0 +1,30 @@
+<div ui-content-for="pageTitle">
+	<span>{{app.text.vertretungsplanTitle}}</span>
+</div>
+<div class="scrollable" ng-controller="VertretungsplanCtrl">
+	<div class="scrollable-content">
+		<div class="list-group" ng-if="isLoaded">
+			<div class="list-group-item list-group-item-info" ng-repeat-start="vertretung in vertretungen">
+				<h4 class="list-group-item-heading">{{vertretung.datum | date:'EEE dd.MM - HH:mm'}} Uhr</h4>
+				<h4 class="list-group-item-heading">{{vertretung.bemerkung}}</h4>
+			</div>
+			<div class="list-group-item status-list-item" ng-repeat-end>
+				<span class="status-description" ng-class="vertretung.statusClass">
+					<img ng-show="vertretung.statusImg" ng-src="{{vertretung.statusImg}}">
+					<div ng-show="vertretung.statusTitle" class="status" ng-class="vertretung.statusClass"><div class="status-label"><span>{{vertretung.statusTitle}}</span></div></div>
+					<p ng-show="vertretung.stunde" class="termine time"><i class="fa fa-clock-o"></i> <strong>{{app.text.vertretungsplanTime}}</strong> {{vertretung.stunde}}</p>
+					<p ng-show="vertretung.lehrer" class="termine person"><i class="fa fa-user"></i> <strong>{{app.text.vertretungsplanPerson}}</strong> {{vertretung.lehrer}}</p>
+					<p ng-show="vertretung.raum_neu" class="termine location"><i class="fa fa-compass"></i> <strong>{{app.text.vertretungsplanPlaceOld}}</strong> {{vertretung.raum_alt}} <strong>{{app.text.vertretungsplanPlaceNew}}</strong> {{vertretung.raum_neu}}</p>
+				</span>
+			</div>
+			<div class="list-group-item list-group-item-success" ng-if="vertretungen.length == 0">
+				<h4 class="list-group-item-heading">{{app.text.vertretungsplanEmpty}}</h4>
+			</div>
+		</div>
+	</div>
+	<div ui-content-for="navbarAction">
+		<a href="" class="btn btn-default btn-navbar" ng-click="goBack()">
+			<i class="fa fa-chevron-circle-left"></i> {{app.text.backButton}}
+		</a>
+	</div>
+</div>

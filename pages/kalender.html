@@ -1,0 +1,132 @@
+<div ui-content-for="pageTitle">
+	<span>{{app.text.kalenderTitle}}</span>
+</div>
+<div class="scrollable" ng-controller="KalenderCtrl">
+	<div class="scrollable-content section">
+		<div class="panel-group">
+			<div class="panel panel-default" ng-repeat="tag in kalend.tage" ng-init="tagIdx = $index">
+				<div class="panel-heading" ng-click="selectDay(tag)">
+					<h3 class="panel-title">
+						<span class="pull-left">
+							<i class="fa" ng-class="{'fa-plus-circle' : selectedDate != tag.datum, 'fa-minus-circle' : selectedDate == tag.datum}"></i>&nbsp;
+						</span>
+						<span>
+							{{tag.datum | date:'EEEE, MMM d'}} <span ng-if="tag.feiertag_name != ''">- {{tag.feiertag_name}}</span>
+						</span>
+						<span class="pull-right">
+							<span ng-if="tag.menueCount > 0">
+								<span ng-if="tag.isAbo">
+									<span ng-if="tag.angemeldet"><img src="images/apfel_abo.png" class="day-icon" /></span>
+									<span ng-if="!tag.angemeldet"><img src="images/kreuz_abo.png"  class="day-icon" /></span>
+								</span>
+								<span ng-if="!tag.isAbo">
+									<span ng-if="tag.angemeldet"><img src="images/icon_spoon_color.png"  class="day-icon" /></span>
+									<span ng-if="!tag.angemeldet"><img src="images/icon_spoon_gray.png"  class="day-icon" /></span>
+								</span>
+							</span>
+							<span ng-if="tag.hasCourses"><img src="images/kurse.png"  class="day-icon" /></span>
+							<span ng-if="tag.events.length > 0 || tag.vertretungsplan.length > 0"><img src="images/info.png"  class="day-icon" /></span>
+							<span ng-if="tag.ferientag == 1"><img src="images/ferien.png"  class="day-icon" /></span>
+						</span>
+					</h3>
+				</div>
+				<div ng-if="selectedDate == tag.datum" class="list-group">
+					<div class="" ng-if="!tag.isEmpty">
+						<div ng-repeat="detail in kalend.details[tagIdx].detail_kostenarten" ng-init="detailIdx = $index">
+							<div class="list-group-item list-group-item-info"><h4 class="list-group-item-heading">{{app.text["dktitle_" + detail.title]}}</h4></div>
+							<div ng-repeat="angebot in detail.kostenarten" ng-init="angebotIdx = $index">
+								<div ng-if="angebot.menues.length > 0">
+									<a href="" class="list-group-item" ng-repeat="menue in angebot.menues" ng-click="openMenue(tagIdx,detailIdx,angebotIdx,$index)" ng-class="{'active': menue.ausgewaehlt == '1','disabled':angebot.aenderbar == '0'}" ng-disabled="angebot.aenderbar == '0'">
+										<div class="row">
+											<div class="col-xs-1">
+												<i class="fa pull-right" ng-class="{'fa-check-square-o':menue.ausgewaehlt == '1','fa-square-o':menue.ausgewaehlt == '0'}"></i>
+											</div>
+											<div class="col-xs-11">
+												<h4 class="list-group-item-heading" ng-bind-html="menue.menue_text"></h4>&nbsp;<span ng-if="menue.allergie_konflikte.length > 0" class="label label-danger">!</span><br/>
+												<span ng-if="menue.preis > 0">Preis: {{menue.preis | currency}}</span>&nbsp;<span ng-if="menue.menge_verfuegbar <= 0" class="label label-danger">Ausverkauft !</span>
+											</div>
+										</div>
+									</a>
+									<a href="" class="list-group-item" ng-if="angebot.pflicht == '0'" ng-disabled="angebot.aenderbar == '0'" ng-class="{'active': !tag.angemeldet,'disabled':angebot.aenderbar == '0'}" ng-click="openMenue(tagIdx, detailIdx, angebotIdx, angebot.menues.length)">
+										<div class="row">
+											<div class="col-xs-1">
+												<i class="fa pull-right" ng-class="{'fa-check-square-o':!tag.angemeldet,'fa-square-o':tag.angemeldet}"></i>
+											</div>
+											<div class="col-xs-11">
+												<h4 class="list-group-item-heading">{{app.text.deselectMenue}}</h4><br/>
+											</div>
+										</div>
+									</a>
+								</div>
+								<a href="" class="list-group-item" ng-repeat="termin in angebot.termine" ng-click="openKurse(termin)">
+									<h4 class="list-group-item-heading">{{termin.kurs_name}}</h4>
+									<div class="row">
+										<div class="col-sm-6"><p class="termine location"><i class="fa fa-compass"></i> Treffpunkt: {{termin.treffpunkt}}</p></div>
+										<div class="col-sm-6"><p class="termine time"><i class="fa fa-clock-o"></i> {{termin.start}} - {{termin.ende}}</p></div>
+									</div>
+								</a>
+							</div>
+							<a href="" class="list-group-item list-group-item-warning" ng-if="detail.aboEnabled" ui-turn-on="aboModal" ng-click="aboSelect(tagIdx)">
+								<div class="row">
+									<div class="col-xs-1">
+										<i class="fa pull-right" ng-class="{'fa-check-square-o':abo.tage[tagIdx],'fa-square-o':!abo.tage[tagIdx]}"></i>
+									</div>
+									<div class="col-xs-11">
+										<h4 class="list-group-item-heading">{{tag.datum | date:'EEEE'}} {{app.text.aboSelect}}</h4>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+					<div ng-if="tag.events.length > 0">
+						<div class="list-group-item list-group-item-info"><h4 class="list-group-item-heading">{{app.text.eventsTitle}}</h4></div>
+						<div class="list-group-item" ng-repeat="event in tag.events">
+							<img class="menue-pic" ng-if="event.bild_id != ''" align="left" alt="Event" ng-src="{{imgUrl}}/{{event.bild_id}}.jpg?sk={{sk}}">
+							<h4 class="list-group-item-heading">{{event.beschreibung}}</h4>
+							<p class="termine time" style="margin-top:0.5em;" ng-show="event.showTime"><i class="fa fa-clock-o"></i> {{event.datum_von | date:'HH:mm'}}</p>
+						</div>
+					</div>
+					<div ng-if="tag.vertretungsplan.length > 0">
+						<div class="list-group-item list-group-item-info"><h4 class="list-group-item-heading">{{app.text.substitutionTitle}}</h4></div>
+						<a href="" class="list-group-item" ng-repeat="item in tag.vertretungsplan" ng-click="openSubstitution(item)">
+							<h4 class="list-group-item-heading"><i class="fa fa-spin fa-clock-o"></i> {{item.datum | date:'HH:mm'}} ({{item.vertretungsart}}):</h4>
+							<p style="margin-top:0.5em;">{{item.bemerkung}}</p>
+						</a>
+					</div>
+					<!-- <pre>{{kalend.details[tagIdx] | json}}</pre> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ui-content-for="navbarAction">
+		<a href="" class="btn btn-default btn-navbar" ng-click="prevWeekAction()">
+			<i class="fa fa-chevron-circle-left"></i> {{app.text.navWeekAction}}
+		</a>
+		<a href="" class="btn btn-default btn-navbar" ng-click="todayAction()">
+			<i class="fa fa-check-square"></i> {{app.text.navTodayAction}}
+		</a>
+		<a href="" class="btn btn-default btn-navbar" ng-click="nextWeekAction()">
+			{{app.text.navWeekAction}} <i class="fa fa-chevron-circle-right"></i>
+		</a>
+	</div>
+	<div ui-content-for="modals">
+		<div ui-if="aboModal" class="modal modal-overlay">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" ui-turn-off="aboModal">&times;</button>
+						<h4 class="modal-title">{{app.text.aboTitle}}</h4>
+					</div>
+					<div class="modal-body">
+						<p ng-if="!abo.isAbo">{{app.text.aboAnmeldungText | replace:'%tag%':abo.tagName}}</p>
+						<p ng-if="abo.isAbo">{{app.text.aboAbmeldungText | replace:'%tag%':abo.tagName}}</p>
+					</div>
+					<div class="modal-footer">
+						<button ui-turn-off="aboModal" class="btn btn-primary" ng-click="aboOk()">{{app.text.okButton}}</button>
+						<button ui-turn-off="aboModal" class="btn btn-default">{{app.text.cancelButton}}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

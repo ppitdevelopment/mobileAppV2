@@ -1,0 +1,41 @@
+<div ui-content-for="pageTitle">
+	<span>{{app.text.menuTitle}}</span>
+</div>
+<div class="scrollable" ng-controller="MenueCtrl">
+	<div class="scrollable-content section">
+		<p ng-class="selectedMenue.selectedMenueClass"><img alt="Menue image" ng-src="{{selectedMenue.selectedMenueImage}}" src="images/essen.png"><span ng-bind-html="selectedMenue.menue.menue_text"></span></p>
+		<div ng-if="selectedMenue.menue.allergie_konflikte.length > 0">
+			<p class="text-danger">
+				{{app.text.allergyConflict}}
+				<span ng-repeat="allergie in selectedMenue.menue.allergie_konflikte"> {{allergie.name}} ({{allergie.kurzname}})<span ng-if="!$last">,</span><span ng-if="$last">.</span></span>
+			</p>
+			<div ng-if="selectedMenue.menue.ersatzkomponenten.length > 0">
+				<hr />
+				<p>{{app.text.substiteSelect}}</p>
+				<fieldset>
+					<label ng-repeat="ersatz in selectedMenue.menue.ersatzkomponenten" for="ersatz-{{ersatz.speise_id}}">
+						{{ersatz.bezeichnung}} <span ng-if="ersatz.zusatzstoffe.length > 0">(<span ng-repeat="zusatzstoffe in ersatz.zusatzstoffe"> {{zusatzstoffe.kurzname}}<span ng-if="!$last">,</span></span>)</span>
+						<input type="checkbox" id="ersatz-{{ersatz.speise_id}}"
+							   ng-model="selectedMenue.menue.ersatzkomponenten[$index].ausgewaehlt"
+							   ng-checked="ersatz.ausgewaehlt == '1'" />
+					</label>
+				</fieldset>
+			</div>
+		</div>
+		<div ng-if="nachricht_sekretariat == 1">
+			<hr />
+			<textarea ng-model="selectedMenue.menueNachricht" name="nachricht" id="nachricht" placeholder="{{app.text.secretariat}}"></textarea>
+		</div>
+		<div ng-if="result.ready" class="alert" role="alert" ng-class="result.type">
+			{{result.text}}
+		</div>
+	</div>
+	<div ui-content-for="navbarAction">
+		<a href="" class="btn btn-primary btn-navbar" ng-click="submitMenu()">
+			<i class="fa fa-check-circle-o"></i> {{app.text.okButton}}
+		</a>
+		<a href="" class="btn btn-danger btn-navbar" ng-click="cancelMenu()">
+			<i class="fa fa-times-circle-o"></i> {{app.text.cancelButton}}
+		</a>
+	</div>
+</div>

@@ -1,0 +1,62 @@
+<div ui-content-for="pageTitle">
+	<span>{{app.text.loginTitle}}</span>
+</div>
+<div class="scrollable" ng-controller="LoginCtrl">
+	<div class="scrollable-content section">
+		<form role="form" ng-submit='login()'>
+			<fieldset>
+				<div class="form-group">
+					<label>{{app.text.usernameLabel}}</label>
+					<input type="text" ng-model="user.username" class="form-control" placeholder="{{app.text.usernameLabel}}">
+				</div>
+				<div class="form-group">
+					<label>{{app.text.passwordLabel}}</label>
+					<input type="password" ng-model="user.password" class="form-control" placeholder="{{app.text.passwordLabel}}">
+				</div>
+			</fieldset>
+			<div class="row section">
+				<div class="col-sm-6">
+					<div class="pull-right">
+						<ui-switch ng-model='remember'></ui-switch>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<label>{{app.text.rememberLabel}}</label>
+				</div>
+			</div>
+			<div class="row section">
+				<div class="col-sm-6">
+					<div class="pull-right">
+						<a href="" class="btn btn-default" ui-turn-on='myDropdown'>
+							{{app.selectedLanguage}} <i class="fa fa-caret-down"></i>
+						</a>
+						<ul
+								class="dropdown-menu"
+								ui-outer-click="Ui.turnOff('myDropdown')"
+								ui-outer-click-if="Ui.active('myDropdown')"
+								role="menu"
+								ui-show="myDropdown"
+								ui-state="myDropdown"
+								ui-turn-off="myDropdown">
+							<li ng-repeat="(lKey, lTitle) in app.lang"><a href="" ng-click="changeLang(lKey)">{{lTitle}}</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<label>{{app.text.languageLabel}}</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="logo"></div>
+				</div>
+			</div>
+			<div ui-content-for="navbarAction">
+				<a href="" class="btn btn-primary btn-navbar" ng-click="login()">
+				<i class="fa fa-sign-in"></i> {{app.text.loginAction}}
+				</a>
+			</div>
+			
+		</form>
+	</div>
+</div>
