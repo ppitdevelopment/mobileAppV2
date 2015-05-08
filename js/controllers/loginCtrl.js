@@ -4,6 +4,7 @@
  */
 var LoginCtrl = ppitControllers.controller('LoginCtrl', ['$scope', 'Core', 'Auth', 'Navigation', 'Storage', 'Lang', function($scope, Core, Auth, Navigation, Storage, Lang) {
 	console.log('LoginCtrl');
+	$scope.msg = "";
 	$scope.cred = {
 		username : "",
 		password : ""
@@ -12,7 +13,7 @@ var LoginCtrl = ppitControllers.controller('LoginCtrl', ['$scope', 'Core', 'Auth
 		username : "",
 		password : ""
 	};
-	$scope.remember = false;
+	$scope.remember = true;
 	$scope.reset = function() {
 		$scope.user = angular.copy($scope.cred);
 	};
@@ -22,6 +23,7 @@ var LoginCtrl = ppitControllers.controller('LoginCtrl', ['$scope', 'Core', 'Auth
 			$scope.cred = angular.copy($scope.user);
 			Auth.remember = $scope.remember;
 			Auth.login($scope.cred, function(data) {
+				$scope.msg = "OK";
 				console.log('AuthCtrl success login', $scope.userStart);
 				Navigation.go($scope.userStart);
 				/*
@@ -36,6 +38,7 @@ var LoginCtrl = ppitControllers.controller('LoginCtrl', ['$scope', 'Core', 'Auth
 				 */
 				//$scope.$apply();
 			}, function() {
+				$scope.msg = "Error";
 				console.log('AuthCtrl error login');
 				Navigation.go("error");
 			});

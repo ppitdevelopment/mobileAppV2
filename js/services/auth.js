@@ -66,7 +66,7 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 		return (Auth.sessionKey != "");
 	};
 	// should we remember credentials or not?
-	Auth.remember = false;
+	Auth.remember = true;
 	// credentials saved?
 	Auth.saved = false;
 	// buttons available on start page
