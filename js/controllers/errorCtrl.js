@@ -4,6 +4,7 @@
  */
 var ErrorCtrl = ppitControllers.controller('ErrorCtrl', ['$scope', 'Auth', 'Navigation', 'Messages', function($scope, Auth, Navigation, Messages) {
 	console.log('ErrorCtrl');
+	alert("error ctrl");
 	$scope.action = function() {
 		Messages.messages = [];
 		Navigation.goBack();

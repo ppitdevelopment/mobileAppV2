@@ -130,7 +130,7 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 							Messages.addMessage(type, undefined, meldung);
 						});
 					}
-					if (doneHandler) doneHandler(data);
+					if (!!doneHandler) doneHandler(data);
 				} else {
 					//console.log( "false login: ", data );
 					if(data.result.status == 0) {
@@ -140,7 +140,7 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 					} else if(data.result.status > 0) {
 						Messages.addMessage("auth", undefined, "Benutzername oder Passwort falsch! Sie müssen " + data.result.status + " Sekunden warten");
 					}
-					if (failHandler)
+					if (!!failHandler)
 						failHandler(data);
 				}
 			} else {

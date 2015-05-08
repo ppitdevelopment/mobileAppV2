@@ -19,10 +19,13 @@ var LoginCtrl = ppitControllers.controller('LoginCtrl', ['$scope', 'Core', 'Auth
 	};
 	$scope.login = function() {
 		console.log("login click", $scope.user, $scope.remember);
+		$scope.msg = "start...";
+		alert("start");
 		if($scope.user.username != "" && $scope.user.password != "") {
 			$scope.cred = angular.copy($scope.user);
 			Auth.remember = $scope.remember;
 			Auth.login($scope.cred, function(data) {
+				alert("success");
 				$scope.msg = "OK";
 				console.log('AuthCtrl success login', $scope.userStart);
 				Navigation.go($scope.userStart);
@@ -38,6 +41,7 @@ var LoginCtrl = ppitControllers.controller('LoginCtrl', ['$scope', 'Core', 'Auth
 				 */
 				//$scope.$apply();
 			}, function() {
+				alert("error");
 				$scope.msg = "Error";
 				console.log('AuthCtrl error login');
 				Navigation.go("error");
