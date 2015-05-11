@@ -35,9 +35,10 @@
 	<preference name="permissions" value="none"/>
 	<!-- <feature name="http://api.phonegap.com/1.0/camera"/> -->
 	<!-- <feature name="http://api.phonegap.com/1.0/file"/> -->
-	<access origin="https://10.21.0.11" />
+	<!-- <access origin="https://10.21.0.11" />
 	<access origin="https://m.ber.menuplus.de" />
 	<access origin="https://141.101.33.77" />
 	<access origin="https://m.people-projects-it.com" />
-	<access origin="https://m-proxy.people-projects-it.com" />
+	<access origin="https://m-proxy.people-projects-it.com" /> -->
+    <access origin="*" />
 </widget>
