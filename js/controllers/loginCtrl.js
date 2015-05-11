@@ -42,7 +42,12 @@ var LoginCtrl = ppitControllers.controller('LoginCtrl', ['$scope', 'Core', 'Auth
 		}
 
 	};
+	$scope.testDates = function() {
+		alert("dates:"+$scope.selectedStartDate.toDateString());
+	};
 	$scope.init = function() {
+		$scope.selectedStartDate = new Date();
+		$scope.selectedEndDate = new Date();
 		Auth.load();
 		$scope.remember = Auth.remember;
 		if($scope.remember) $scope.cred = Auth.cred;
