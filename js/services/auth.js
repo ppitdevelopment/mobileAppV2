@@ -32,7 +32,7 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 		//Core.startLoading();
 		$rootScope.loading = true;
 		$http(config).success(function(data, status, headers, config) {
-			alert("http success" + status);
+			alert("http success " + angular.toJson(data));
 			$rootScope.loading = false;
 			//Core.stopLoading();
 			if(angular.isDefined(data)) {
