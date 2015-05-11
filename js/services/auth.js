@@ -32,7 +32,6 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 		//Core.startLoading();
 		$rootScope.loading = true;
 		$http(config).success(function(data, status, headers, config) {
-			alert("http success " + data + " " + angular.toJson(config));
 			$rootScope.loading = false;
 			//Core.stopLoading();
 			if(!!data) {
@@ -52,7 +51,6 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 				if(!!failHandler) failHandler(data);
 			}
 		}).error(function(data, status, headers, config) {
-			alert("http error", status);
 			//Core.stopLoading();
 			$rootScope.loading = false;
 			if(status != 503) {
@@ -90,7 +88,6 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 	};
 	// main authorization function
 	Auth.login = function(cred, doneHandler, failHandler) {
-		alert("Auth.login start");
 		// clean previous session info
 		Auth.clear();
 		// prepare config parameter for $http request
@@ -110,9 +107,7 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 				url		: url,
 				data	: cred
 		};
-		alert("Auth.request start");
 		Auth.request(config, function (data) {
-			alert("Auth.request success"+data.result.status);
 			if (data != "") {
 				if (data.result.status == "ok") {
 					// login request successfull
@@ -139,12 +134,13 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 					if (!!doneHandler) doneHandler(data);
 				} else {
 					//console.log( "false login: ", data );
-					if(data.result.status == 0) {
+					var st = +data.result.status;
+					if(st == 0) {
 						Messages.addMessage("auth", undefined, "Benutzername oder Passwort falsch!");
-					} else if(data.result.status < 0){
+					} else if(st < 0){
 						Messages.addMessage("err", undefined, data.fehlermessage);
-					} else if(data.result.status > 0) {
-						Messages.addMessage("auth", undefined, "Benutzername oder Passwort falsch! Sie müssen " + data.result.status + " Sekunden warten");
+					} else if(st > 0) {
+						Messages.addMessage("auth", undefined, "Benutzername oder Passwort falsch! Sie müssen " + st + " Sekunden warten");
 					}
 					if (!!failHandler)
 						failHandler(data);
