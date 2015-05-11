@@ -10,31 +10,31 @@ var ppitMessages = ppitServices.factory('Messages', [function() {
 				"action": "ok",
 				"title"	: "Fehler",
 				"text"	: "Fehler",
-				"image"	: "css/images/warn.png"
+				"image"	: "images/warn.png"
 			},
 			"auth"	: {
 				"action": "refresh",
 				"title"	: "Fehler",
 				"text"	: "Fehler",
-				"image"	: "css/images/warn.png"
+				"image"	: "images/warn.png"
 			},
 			"wait"	: {
 				"action": "refresh",
 				"title"	: "Wartung",
 				"text"	: "Derzeit aktualisieren wir für Sie unser System. Deshalb steht dieser Dienst vorübergehend nicht zur Verfügung. Wir danken für Ihr Verständnis und bitten Sie es später noch einmal zu versuchen.",
-				"image"	: "css/images/wartung.png"
+				"image"	: "images/wartung.png"
 			},
 			"info"	: {
 				"action": "ok",
 				"title"	: "Info",
 				"text"	: "",
-				"image"	: "css/images/info_big.png"
+				"image"	: "images/info_big.png"
 			},
 			"warnung"	: {
 				"action": "ok",
 				"title"	: "Warnung",
 				"text"	: "",
-				"image"	: "css/images/warn.png"
+				"image"	: "images/warn.png"
 			}
 	};
 	M.actionType = "ok"; // "ok"/"refresh"
