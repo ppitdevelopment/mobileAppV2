@@ -87,6 +87,7 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 	};
 	// main authorization function
 	Auth.login = function(cred, doneHandler, failHandler) {
+		alert("Auth.login start");
 		// clean previous session info
 		Auth.clear();
 		// prepare config parameter for $http request
@@ -106,7 +107,9 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 				url		: url,
 				data	: cred
 		};
+		alert("Auth.request start");
 		Auth.request(config, function (data) {
+			alert("Auth.request success"+data.result.status);
 			if (data != "") {
 				if (data.result.status == "ok") {
 					// login request successfull

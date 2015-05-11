@@ -20,7 +20,7 @@ var LoginCtrl = ppitControllers.controller('LoginCtrl', ['$scope', 'Core', 'Auth
 	$scope.login = function() {
 		console.log("login click", $scope.user, $scope.remember);
 		$scope.msg = "start...";
-		alert("start");
+		alert("start"+$scope.user.username+":"+$scope.user.password);
 		if($scope.user.username != "" && $scope.user.password != "") {
 			$scope.cred = angular.copy($scope.user);
 			Auth.remember = $scope.remember;
