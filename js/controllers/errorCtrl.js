@@ -19,7 +19,7 @@ var ErrorCtrl = ppitControllers.controller('ErrorCtrl', ['$scope', 'Auth', 'Navi
 			messages	: Messages.messages,
 			actions		: undefined
 		};
-		$scope.title = (angular.isDefined(Messages.messages) && Messages.messages.length > 0)? Messages.messages[0].title : $scope.app.text.errorTitle;
+		$scope.pageTitle = (angular.isDefined(Messages.messages) && Messages.messages.length > 0)? Messages.messages[0].title : $scope.app.text.errorTitle;
 		$scope.actionType = Messages.actionType;
 	};
 	$scope.init();
