@@ -47,6 +47,13 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="col-sm-1 text-right"><label for="startDate">{{app.text.kontoFrom}}</label></div>
+				<div class="col-sm-4"><input class="form-control" type="date" name="startDate" id="startDate" ng-model="selectedStartDate" /></div>
+				<div class="col-sm-1 text-right"><label for="endDate">{{app.text.kontoTill}}</label></div>
+				<div class="col-sm-4"><input class="form-control" type="date" name="endDate" id="endDate" ng-model="selectedEndDate" /></div>
+				<div class="col-sm-2"><a href="" class="btn btn-default btn-block" ng-click="loadKonto()"><i class="fa fa-refresh"></i> {{app.text.okButton}}</a></div>
+			</div>
+			<div class="row">
 				<div class="col-sm-12">
 					<div class="logo"></div>
 				</div>
