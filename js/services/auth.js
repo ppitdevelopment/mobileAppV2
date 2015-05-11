@@ -32,10 +32,10 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 		//Core.startLoading();
 		$rootScope.loading = true;
 		$http(config).success(function(data, status, headers, config) {
-			alert("http success " + angular.toJson(data));
+			alert("http success " + data + " " + angular.toJson(config));
 			$rootScope.loading = false;
 			//Core.stopLoading();
-			if(angular.isDefined(data)) {
+			if(!!data) {
 				if(angular.isDefined(data.fehler) && data.fehler != 0) {
 					//console.log("Fehler: ", data);
 					if(angular.isDefined(data.fehlermessage)) {
@@ -49,6 +49,7 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 				}
 			} else {
 				Messages.addMessage("err", "Fehler", "Empty server response");
+				if(!!failHandler) failHandler(data);
 			}
 		}).error(function(data, status, headers, config) {
 			alert("http error", status);
