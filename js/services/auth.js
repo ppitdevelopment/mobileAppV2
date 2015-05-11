@@ -32,6 +32,7 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 		//Core.startLoading();
 		$rootScope.loading = true;
 		$http(config).success(function(data, status, headers, config) {
+			alert("http success" + status);
 			$rootScope.loading = false;
 			//Core.stopLoading();
 			if(angular.isDefined(data)) {
@@ -42,21 +43,22 @@ var ppitAuth = ppitServices.factory('Auth', ['$rootScope', '$http', 'Messages', 
 					} else {
 						Messages.addMessage("err", "Fehler", "Unbekannte Fehler: " + data.fehler);
 					}
-					if(failHandler) failHandler(data);
+					if(!!failHandler) failHandler(data);
 				} else {
-					if(successHandler) successHandler(data);
+					if(!!successHandler) successHandler(data);
 				}
 			} else {
 				Messages.addMessage("err", "Fehler", "Empty server response");
 			}
 		}).error(function(data, status, headers, config) {
+			alert("http error", status);
 			//Core.stopLoading();
 			$rootScope.loading = false;
 			if(status != 503) {
 				Messages.addMessage("wait", "Verbindungsfehler (" + status + ")", "App kann nicht mit " + _URL + " verbunden werden. Bitte überprüfen Sie Ihre Internetverbindung.");
 				Navigation.go("error");
 			}
-			if(failHandler) failHandler(data);
+			if(!!failHandler) failHandler(data);
 		});
 	};
 	// user session key
